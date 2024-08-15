@@ -3,7 +3,8 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Collecting Data</title>
+    <title>تطبيق المسجد</title>
+    <link rel="icon" type="image/x-icon" href="mosque.png">
     <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
     <script src="https://js.arcgis.com/4.25/"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -347,6 +348,7 @@ label{
                                 <thead>
                                     <tr>
                                         <th>اسم المسجد</th>
+                                        <th>نقطة اتصال</th>
                                         <th>المحسنين/الأوقاف</th>
                                         <th>تاريخ التنظيف</th>
                                         <th>مستوى التقدم</th>
@@ -359,6 +361,7 @@ label{
                                 <tbody id="tableBody">
                                     <tr>
                                         <td class="editable" data-id="${childSnapshot.key}" data-field="name">${data.name}</td>
+                                        <td class="editable" data-id="${childSnapshot.key}" data-field="contact">${data.contact}</td>
                                         <td class="editable" data-id="${childSnapshot.key}" data-field="type">${data.type}</td>
                                         <td class="editable" data-id="${childSnapshot.key}" data-field="cleaning_date">${data.cleaning_date}</td>
                                         <td class="editable" data-id="${childSnapshot.key}" data-field="progress">${data.progress}</td>
@@ -518,12 +521,12 @@ label{
 
 
         // Save message to firebase
-        function saveMessage(name, longitude, latitude, type, cleaning_date, progress, cleaning_duration) {
+        function saveMessage(name,contact, longitude, latitude, type, cleaning_date, progress, cleaning_duration) {
             let newMessageRef = messagesRef.push();
            
-           console.log(cleaning_date);
             newMessageRef.set({
                 name: name,
+                contact: contact,
                 longitude: parseFloat(longitude),
                 latitude: parseFloat(latitude),
                 type: type,
@@ -539,10 +542,10 @@ label{
                 const mosqueCoords = [];
                 snapshot.forEach(function (childSnapshot) {
                     let data = childSnapshot.val();
-                    console.log(data);
                     mosqueCoords.push({
                         id: childSnapshot.key,
                         name: data.name,
+                        contact: data.contact,
                         type: data.type,
                         longitude: data.longitude,
                         latitude: data.latitude,
@@ -620,7 +623,6 @@ label{
 
         let highlightedGraphic = null;
 
-        console.log(mosqueCoords);
 
         mosqueCoords.forEach(function (mosque) {
             var point = {
@@ -642,6 +644,7 @@ label{
                 content: 
                 `<div id="popup">
                     <b>اسم المسجد :</b> ${mosque.name}<br>
+                    <b>نقطة اتصال :</b> ${mosque.contact}<br>
                     <b>المحسنين/الأوقاف :</b> ${mosque.type}<br>
                     <b>تاريخ التنظيف :</b> ${mosque.cleaning_date}<br>
                     <b>مستوى التقدم :</b> ${mosque.progress}<br>
@@ -662,8 +665,6 @@ label{
         view.on("click", function (event) {
             var latitude = event.mapPoint.latitude.toFixed(5);
             var longitude = event.mapPoint.longitude.toFixed(5);
-            document.getElementById('latitude').value = latitude;
-            document.getElementById('longitude').value = longitude;
             view.popup.open({
                 title: "Coords [" + latitude + ", " + longitude + "]",
                 location: event.mapPoint
@@ -695,10 +696,8 @@ label{
 
         window.gm = function (id) {
             let graphic = graphicsLayer.graphics.find(g => g.attributes.id === id);
-            console.log(graphic.geometry.latitude);
             var lon=graphic.geometry.longitude
             var lat=graphic.geometry.latitude
-            console.log("https://www.google.com/maps/search/"+lat+","+lon);
             window.open("https://www.google.com/maps/search/"+lat+","+lon);
         };
 
@@ -722,6 +721,7 @@ label{
                     let row = document.createElement('tr');
                     row.innerHTML = `
                     <td class="editable" data-id="${childSnapshot.key}" data-field="name">${data.name}</td>
+                    <td class="editable" data-id="${childSnapshot.key}" data-field="contact">${data.contact}</td>
                     <td class="editable" data-id="${childSnapshot.key}" data-field="type">${data.type}</td>
                     <td class="editable" data-id="${childSnapshot.key}" data-field="cleaning_date">${data.cleaning_date}</td>
                     <td class="editable" data-id="${childSnapshot.key}" data-field="progress">${data.progress}</td>
