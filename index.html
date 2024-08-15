@@ -720,14 +720,14 @@ label{
                     let data = childSnapshot.val();
                     let row = document.createElement('tr');
                     row.innerHTML = `
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="name">${data.name}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="contact">${data.contact}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="type">${data.type}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="cleaning_date">${data.cleaning_date}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="progress">${data.progress}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="cleaning_duration">${data.cleaning_duration}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="longitude">${data.longitude}</td>
-                    <td class="editable" data-id="${childSnapshot.key}" data-field="latitude">${data.latitude}</td>
+                    <td data-field="name">${data.name}</td>
+                    <td data-field="contact">${data.contact}</td>
+                    <td data-field="type">${data.type}</td>
+                    <td data-field="cleaning_date">${data.cleaning_date}</td>
+                    <td data-field="progress">${data.progress}</td>
+                    <td data-field="cleaning_duration">${data.cleaning_duration}</td>
+                    <td data-field="longitude">${data.longitude}</td>
+                    <td data-field="latitude">${data.latitude}</td>
                     <td>
                         <button class="btn btn-warning" onclick="changeMarkerColor('${childSnapshot.key}')">المكان</button>
                         <button class="btn btn-success" onclick="gm('${childSnapshot.key}')">Google Maps</button>
