@@ -317,7 +317,7 @@ label{
     <section class="wrapper">
         <ul class="tabs">
             <li id="li1" class="active">الخريطة</li>
-            <li id="li2">الاعدادات</li>
+            <li id="li2">البيانات</li>
         </ul>
 
         <ul class="tab__content">
@@ -624,7 +624,7 @@ label{
         "esri/widgets/Popup"
     ], function (Map, MapView, GraphicsLayer, Graphic, Popup) {
         var map = new Map({
-            basemap: "topo-vector"
+            basemap: "streets-navigation-vector"
         });
         var view = new MapView({
             container: "viewDiv",
@@ -679,8 +679,8 @@ label{
         mosqueCoords.forEach(function (mosque) {
             var point = {
                 type: "point",
-                longitude: mosque.longitude,
-                latitude: mosque.latitude
+                longitude: parseFloat(mosque.longitude),
+                latitude: parseFloat(mosque.latitude)
             };
             var symbol;
             if (mosque.progress === "مبرمج") {
